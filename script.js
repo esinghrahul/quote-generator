@@ -3,8 +3,22 @@ const quoteText = document.getElementById('quote')
 const authorText = document.getElementById('author')
 const twitterBtn = document.getElementById('twitter')
 const newQuoteBtn = document.getElementById('new-quote')
+const loadingIcon = document.getElementById('loader')
+
+function showLoadingSpinner(){
+    loadingIcon.hidden = false
+    quoteContainer.hidden = true
+}
+
+function removeLoadingSpinner(){
+    if(!loadingIcon.hidden){
+        quoteContainer.hidden= false
+        loadingIcon.hidden = true
+    }
+}
 
 async function getQuote(){
+    showLoadingSpinner()
     const proxyUrl= 'https://cors-anywhere.herokuapp.com/'
     const apiUrl= 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json'
     try{
@@ -21,9 +35,12 @@ async function getQuote(){
             quoteText.classList.remove('long-quote')
         }
         quoteText.innerText = data.quoteText
+        removeLoadingSpinner()
     }catch(error){
-        getQuote()
-        console.log('Whoops! Come back later for more nuggets of wisdom', error)
+        // console.log('Whoops! Come back later for more nuggets of wisdom', error)
+        quoteText.innerText = 'Whoops! We are experiencing server overload. Please come back later for more nuggets of wisdom'
+        authorText.innerText = ''
+        setTimeout(() => getQuote(), 5000)
     }
 }
 
