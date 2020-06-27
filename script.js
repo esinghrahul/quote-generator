@@ -8,7 +8,6 @@ const loadingIcon = document.getElementById('loader')
 function showLoadingSpinner(){
     loadingIcon.hidden = false
     quoteContainer.hidden = true
-}
 
 function removeLoadingSpinner(){
     if(!loadingIcon.hidden){
